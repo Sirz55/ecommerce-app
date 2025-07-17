@@ -1,0 +1,72 @@
+doctype html
+html
+  head
+    title Order Confirmation
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    style
+      body
+        font-family: Arial, sans-serif
+        line-height: 1.6
+        color: #333
+        max-width: 600px
+        margin: 0 auto
+        padding: 20px
+        background-color: #f9f9f9
+      .header
+        background-color: #fff
+        padding: 20px
+        border-radius: 8px
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1)
+      .order-details
+        margin: 20px 0
+        padding: 20px
+        background-color: #fff
+        border-radius: 8px
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1)
+      .item
+        display: flex
+        justify-content: space-between
+        margin: 10px 0
+      .footer
+        text-align: center
+        margin-top: 30px
+        color: #666
+  body
+    .header
+      h1 Your Order has been placed successfully!
+      p Thank you for shopping with us!
+    .order-details
+      h2 Order Details
+      .item
+        span Order ID:
+        strong #{order.id}
+      .item
+        span Date:
+        strong #{order.createdAt}
+      .item
+        span Total Amount:
+        strong #{order.totalAmount} ₹
+      h3 Shipping Address
+      .item
+        span #{order.shippingAddress.fullName}
+        span #{order.shippingAddress.streetAddress}
+        span #{order.shippingAddress.city}, #{order.shippingAddress.state} #{order.shippingAddress.postalCode}
+      h3 Items Ordered
+      each item in order.items
+        .item
+          span #{item.name} (#{item.quantity} x #{item.price} ₹)
+          strong #{item.quantity * item.price} ₹
+      if order.coupon
+        .item
+          span Discount (#{order.discount.percentage}%):
+          strong -#{order.discount.amount} ₹
+      .item
+        span Shipping:
+        strong #{order.shippingCost} ₹
+      .item
+        strong Total:
+        strong #{order.totalAmount} ₹
+    .footer
+      p If you have any questions about your order, please contact us at support@ecommerce.com
+      p © 2025 eCommerce. All rights reserved.

@@ -1,8 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const { register, login } = require('../controllers/authController');
+const { auth } = require('../middleware/auth');
+const { verifyEmail, resendVerificationEmail } = require('../middleware/emailVerification');
 
-router.post('/register', register);
-router.post('/login', login);
+// Email verification routes
+router.get('/verify-email/:token', verifyEmail);
+router.post('/resend-verification', auth, async (req, res, next) => {
+  try {
+    await resendVerificationEmail(req, res, next);
+    res.status(200).json({
+      success: true,
+      message: 'Verification email sent successfully'
+    });
+  } catch (error) {
+    next(error);
+  }
+});
 
 module.exports = router;
